@@ -43,7 +43,7 @@ const DocsPage = () => {
           className=" bg-black text-white rounded  px-3 py-2 text-sm cursor-pointer"
           onClick={createWallet}
         >
-          点击创建钱包
+          创建钱包
         </div>
       </div>
       {wallets.map((wallet: any, index: number) => {
