@@ -144,7 +144,6 @@ export default function QueryPage() {
                   <div>{key.toUpperCase()}</div>
                 ))}
             </div>
-
             {data.length > 0 &&
               data.map((item: any, index: any) => {
                 const keys = Object.keys(item);
@@ -167,15 +166,16 @@ export default function QueryPage() {
         <div className=" font-bold text-xl">Native Token 归集</div>
         <div className=" my-2">
           <div>
-            <span>归集地址</span>
+            <span className="mr-2">归集地址</span>
             <input
               className=" border rounded px-3 py-2 text-sm mr-3"
               type="text"
+              value={collectTo}
               onChange={(e) => setCollectTo(e.target.value)}
             />
           </div>
           <div className="my-2">
-            <span> 扣留手续费</span>
+            <span className="mr-2">扣留手续费</span>
             <input
               type="number"
               className=" border rounded px-3 py-2 text-sm mr-3"
@@ -195,17 +195,27 @@ export default function QueryPage() {
       <hr />
       <div className="py-3">
         <div className=" font-bold text-xl">ERC20 归集</div>
+        <span className="mr-2">合约地址</span>
         <input
           type="text"
           className=" my-2 border rounded px-3 py-2 text-sm mr-3"
           placeholder="合约地址"
           onChange={(e) => setContractAddr(e.target.value)}
         />
+        <div className="my-2">
+          <span className="mr-2">归集地址</span>
+          <input
+            className=" border rounded px-3 py-2 text-sm mr-3"
+            type="text"
+            value={collectTo}
+            onChange={(e) => setCollectTo(e.target.value)}
+          />
+        </div>
         <div
           className=" bg-black text-white rounded  px-3 py-2 text-sm cursor-pointer w-fit"
           onClick={collectERC20}
         >
-          ERC20归集
+          确认归集
         </div>
       </div>
     </div>
