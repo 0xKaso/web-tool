@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Interacted() {
   const [rpc, setRpc] = useState<any>();
@@ -15,7 +15,10 @@ export default function Interacted() {
     const { value } = e.target;
     try {
       const r = JSON.parse(value);
+
+      console.log("🚀 ~ file: index.tsx:19 ~ updateABI ~ r:", r)
       setAbi(r);
+      setChooseFun(r[0])
     } catch (error) {
       setAbi([]);
     }
