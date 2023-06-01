@@ -10,6 +10,8 @@ export default function QueryPage() {
   const [gas, setGas] = useState(0.03);
   const [contractAddr, setContractAddr] = useState<any>("");
 
+  const [pkStatus, setPkStatus] = useState<any>(false);
+
   useEffect(() => {
     updateWalletDates();
   }, [pk, rpc]);
@@ -23,14 +25,18 @@ export default function QueryPage() {
       return r;
     }, true);
 
-    if (checkStatu) setPK(r);
+    if (checkStatu) {
+      setPkStatus(true);
+      setPK(r);
+    }
+
+    if (!checkStatu) {
+      setPkStatus(false);
+    }
   };
 
   const updateWalletDates = async () => {
     if (!!rpc === false || pk.length === 0) return;
-    console.log("🚀 ~ file: index.tsx:39 ~ updateWalletDates ~ pk:", pk);
-    console.log("🚀 ~ file: index.tsx:39 ~ updateWalletDates ~ rpc:", rpc);
-    console.log("同步数据中...");
     const provider = new ethers.JsonRpcProvider(rpc);
 
     let wllets = [];
@@ -128,13 +134,23 @@ export default function QueryPage() {
         </div>
 
         <div>
-          <div className="flex">
-            钱包明细
-            <div
-              className=" bg-black text-white rounded ml-2  px-1 my-1 leading-5 text-xs cursor-pointer w-fit"
-              onClick={updateWalletDates}
-            >
-              更新余额
+          <div className="flex items-center justify-between">
+            <div className=" flex gap-2">
+              <div>钱包明细</div>
+              <div
+                className=" bg-black text-white rounded  px-1 my-1 leading-5 text-xs cursor-pointer w-fit"
+                onClick={updateWalletDates}
+              >
+                更新余额
+              </div>
+            </div>
+            <div className="flex gap-2 items-center">
+              <div
+                className={`"rounded-full w-[10px] h-[10px] ${
+                  pkStatus ? "bg-green-800" : "bg-red-800"
+                }`}
+              ></div>
+              <div> {pkStatus ? "私钥录入成功" : "私钥未录入或有误"}</div>
             </div>
           </div>
           <div className=" h-[300px] min-w-[500px] overflow-scroll bg-white p-3 px-6 w-full rounded border">
@@ -163,10 +179,47 @@ export default function QueryPage() {
 
       <hr />
       <div className=" flex gap-10">
-      <div className="py-3">
-        <div className=" font-bold text-xl">Native Token 归集</div>
-        <div className=" my-2">
-          <div>
+        <div className="py-3">
+          <div className=" font-bold text-xl">Native Token 归集</div>
+          <div className=" my-2">
+            <div>
+              <span className="mr-2">归集地址</span>
+              <input
+                className=" border rounded px-3 py-2 text-sm mr-3"
+                type="text"
+                value={collectTo}
+                onChange={(e) => setCollectTo(e.target.value)}
+              />
+            </div>
+            <div className="my-2">
+              <span className="mr-2">扣留手续费</span>
+              <input
+                type="number"
+                className=" border rounded px-3 py-2 text-sm mr-3"
+                value={gas}
+                onChange={(e) => setGas(Number(e.target.value).valueOf())}
+              />
+            </div>
+          </div>
+
+          <div
+            className=" bg-black text-white rounded  px-3 py-2 text-sm cursor-pointer w-fit"
+            onClick={collect}
+          >
+            确认归集
+          </div>
+        </div>
+        <hr />
+        <div className="py-3">
+          <div className=" font-bold text-xl">ERC20 归集</div>
+          <span className="mr-2">合约地址</span>
+          <input
+            type="text"
+            className=" my-2 border rounded px-3 py-2 text-sm mr-3"
+            placeholder="合约地址"
+            onChange={(e) => setContractAddr(e.target.value)}
+          />
+          <div className="my-2">
             <span className="mr-2">归集地址</span>
             <input
               className=" border rounded px-3 py-2 text-sm mr-3"
@@ -175,50 +228,13 @@ export default function QueryPage() {
               onChange={(e) => setCollectTo(e.target.value)}
             />
           </div>
-          <div className="my-2">
-            <span className="mr-2">扣留手续费</span>
-            <input
-              type="number"
-              className=" border rounded px-3 py-2 text-sm mr-3"
-              value={gas}
-              onChange={(e) => setGas(Number(e.target.value).valueOf())}
-            />
+          <div
+            className=" bg-black text-white rounded  px-3 py-2 text-sm cursor-pointer w-fit"
+            onClick={collectERC20}
+          >
+            确认归集
           </div>
         </div>
-
-        <div
-          className=" bg-black text-white rounded  px-3 py-2 text-sm cursor-pointer w-fit"
-          onClick={collect}
-        >
-          确认归集
-        </div>
-      </div>
-      <hr />
-      <div className="py-3">
-        <div className=" font-bold text-xl">ERC20 归集</div>
-        <span className="mr-2">合约地址</span>
-        <input
-          type="text"
-          className=" my-2 border rounded px-3 py-2 text-sm mr-3"
-          placeholder="合约地址"
-          onChange={(e) => setContractAddr(e.target.value)}
-        />
-        <div className="my-2">
-          <span className="mr-2">归集地址</span>
-          <input
-            className=" border rounded px-3 py-2 text-sm mr-3"
-            type="text"
-            value={collectTo}
-            onChange={(e) => setCollectTo(e.target.value)}
-          />
-        </div>
-        <div
-          className=" bg-black text-white rounded  px-3 py-2 text-sm cursor-pointer w-fit"
-          onClick={collectERC20}
-        >
-          确认归集
-        </div>
-      </div>
       </div>
     </div>
   );
