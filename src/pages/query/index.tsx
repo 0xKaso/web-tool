@@ -109,69 +109,66 @@ export default function QueryPage() {
   return (
     <div>
       <div className=" font-bold text-xl">配置项</div>
-
-      <div className=" flex">
+      <div className=" ">
+        <div className=" font-bold text-xl my-2">RPC</div>
+        <input
+          className=" border rounded px-3 py-2 text-sm mr-3"
+          type="text"
+          placeholder="rpc"
+          onChange={(e: any) => setRpc(e.target.value)}
+        />
         <div>
-          <div>RPC</div>
-          <input
-            className=" border rounded px-3 py-2 text-sm mr-3"
-            type="text"
-            placeholder="rpc"
-            onChange={(e: any) => setRpc(e.target.value)}
-          />
-          <div>
-            <div>私钥</div>
-            <textarea
-              className=" border rounded px-3 py-2 text-sm mr-3"
-              cols={30}
-              rows={10}
-              placeholder="请输入PK"
-              onChange={updatePK}
-            ></textarea>
+          <div className=" font-bold text-xl my-2">私钥</div>
+          <textarea
+            className=" border rounded px-3 py-2 text-sm mr-3 w-full"
+            cols={30}
+            rows={10}
+            placeholder="请输入PK"
+            onChange={updatePK}
+          ></textarea>
+        </div>
+      </div>
+
+      <div>
+        <div className="flex items-center justify-between">
+          <div className=" flex gap-2 items-center">
+            <div className=" font-bold text-xl my-2">钱包明细</div>
+            <div
+              className=" bg-black text-white h-fit rounded  px-1 my-1 leading-5 text-xs cursor-pointer w-fit"
+              onClick={updateWalletDates}
+            >
+              更新余额
+            </div>
+          </div>
+          <div className="flex gap-2 items-center">
+            <div
+              className={`"rounded-full w-[10px] h-[10px] ${
+                pkStatus ? "bg-green-800" : "bg-red-800"
+              }`}
+            ></div>
+            <div> {pkStatus ? "私钥录入成功" : "私钥未录入或有误"}</div>
           </div>
         </div>
-
-        <div>
-          <div className="flex items-center justify-between">
-            <div className=" flex gap-2">
-              <div>钱包明细</div>
-              <div
-                className=" bg-black text-white rounded  px-1 my-1 leading-5 text-xs cursor-pointer w-fit"
-                onClick={updateWalletDates}
-              >
-                更新余额
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div
-                className={`"rounded-full w-[10px] h-[10px] ${
-                  pkStatus ? "bg-green-800" : "bg-red-800"
-                }`}
-              ></div>
-              <div> {pkStatus ? "私钥录入成功" : "私钥未录入或有误"}</div>
-            </div>
-          </div>
-          <div className=" min-h-[250px] min-w-[500px] overflow-scroll bg-white p-3 px-6 w-full rounded border">
-            <div className=" flex justify-between font-bold underline">
-              {data.length > 0 &&
-                Object.keys(data[0]).map((key: any) => (
-                  <div>{key.toUpperCase()}</div>
-                ))}
-            </div>
+        <div className=" min-h-[250px] min-w-[500px] overflow-scroll bg-white p-3 px-6 w-full rounded border">
+          <div className=" flex justify-between font-bold underline">
             {data.length > 0 &&
-              data.map((item: any, index: any) => {
-                const keys = Object.keys(item);
-                return (
-                  <div className=" flex gap-3 font-mono" key={index}>
-                    {keys.map((key: any) => (
-                      <div>
-                        {item[key]} {"  "}
-                      </div>
-                    ))}
-                  </div>
-                );
-              })}
+              Object.keys(data[0]).map((key: any) => (
+                <div>{key.toUpperCase()}</div>
+              ))}
           </div>
+          {data.length > 0 &&
+            data.map((item: any, index: any) => {
+              const keys = Object.keys(item);
+              return (
+                <div className=" flex gap-3 font-mono" key={index}>
+                  {keys.map((key: any) => (
+                    <div>
+                      {item[key]} {"  "}
+                    </div>
+                  ))}
+                </div>
+              );
+            })}
         </div>
       </div>
 
