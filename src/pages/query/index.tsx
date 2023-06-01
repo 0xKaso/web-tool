@@ -123,8 +123,6 @@ export default function QueryPage() {
             <div>私钥</div>
             <textarea
               className=" border rounded px-3 py-2 text-sm mr-3"
-              name="pk"
-              id=""
               cols={30}
               rows={10}
               placeholder="请输入PK"
