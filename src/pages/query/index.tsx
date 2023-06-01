@@ -149,7 +149,7 @@ export default function QueryPage() {
             <div> {pkStatus ? "私钥录入成功" : "私钥未录入或有误"}</div>
           </div>
         </div>
-        <div className=" min-h-[250px] min-w-[500px] overflow-scroll bg-white p-3 px-6 w-full rounded border">
+        <div className=" min-h-[250px] overflow-scroll bg-white p-3 px-6 w-full rounded border">
           <div className=" flex justify-between font-bold underline">
             {data.length > 0 &&
               Object.keys(data[0]).map((key: any) => (
@@ -173,7 +173,7 @@ export default function QueryPage() {
       </div>
 
       <hr />
-      <div className=" flex gap-10">
+ 
         <div className="py-3">
           <div className=" font-bold text-xl">Native Token 归集</div>
           <div className=" my-2">
@@ -231,6 +231,6 @@ export default function QueryPage() {
           </div>
         </div>
       </div>
-    </div>
+
   );
 }
