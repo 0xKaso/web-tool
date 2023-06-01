@@ -12,11 +12,15 @@
     "bignumber.js": "^9.1.1",
     "ethereumjs-wallet": "^1.0.2",
     "ethers": "^6.4.0",
+    "file-saver": "^2.0.5",
     "umi": "^4.0.70"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.5",
     "@types/react": "^18.0.33",
     "@types/react-dom": "^18.0.11",
+    "@umijs/plugins": "^4.0.70",
+    "tailwindcss": "^3",
     "typescript": "^5.0.3"
   }
 }
