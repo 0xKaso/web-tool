@@ -11,4 +11,5 @@ export default defineConfig({
   npmClient: "yarn",
   tailwindcss: {},
   plugins: ["@umijs/plugins/dist/tailwindcss"],
+  title:"工具箱",
 });
