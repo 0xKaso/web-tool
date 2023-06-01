@@ -162,6 +162,7 @@ export default function QueryPage() {
       </div>
 
       <hr />
+      <div className=" flex gap-10">
       <div className="py-3">
         <div className=" font-bold text-xl">Native Token 归集</div>
         <div className=" my-2">
@@ -217,6 +218,7 @@ export default function QueryPage() {
         >
           确认归集
         </div>
+      </div>
       </div>
     </div>
   );
