@@ -102,65 +102,112 @@ export default function QueryPage() {
   };
   return (
     <div>
-      <div>
-        <div>RPC</div>
+      <div className=" font-bold text-xl">配置项</div>
+
+      <div className=" flex">
+        <div>
+          <div>RPC</div>
+          <input
+            className=" border rounded px-3 py-2 text-sm mr-3"
+            type="text"
+            placeholder="rpc"
+            onChange={(e: any) => setRpc(e.target.value)}
+          />
+          <div>
+            <div>私钥</div>
+            <textarea
+              className=" border rounded px-3 py-2 text-sm mr-3"
+              name="pk"
+              id=""
+              cols={30}
+              rows={10}
+              placeholder="请输入PK"
+              onChange={updatePK}
+            ></textarea>
+          </div>
+        </div>
+
+        <div>
+          <div className="flex">
+            钱包明细
+            <div
+              className=" bg-black text-white rounded ml-2  px-1 my-1 leading-5 text-xs cursor-pointer w-fit"
+              onClick={updateWalletDates}
+            >
+              更新余额
+            </div>
+          </div>
+          <div className=" h-[300px] min-w-[500px] overflow-scroll bg-white p-3 px-6 w-full rounded border">
+            <div className=" flex justify-between font-bold underline">
+              {data.length > 0 &&
+                Object.keys(data[0]).map((key: any) => (
+                  <div>{key.toUpperCase()}</div>
+                ))}
+            </div>
+
+            {data.length > 0 &&
+              data.map((item: any, index: any) => {
+                const keys = Object.keys(item);
+                return (
+                  <div className=" flex gap-3 font-mono" key={index}>
+                    {keys.map((key: any) => (
+                      <div>
+                        {item[key]} {"  "}
+                      </div>
+                    ))}
+                  </div>
+                );
+              })}
+          </div>
+        </div>
+      </div>
+
+      <hr />
+      <div className="py-3">
+        <div className=" font-bold text-xl">Native Token 归集</div>
+        <div className=" my-2">
+          <div>
+            <span>归集地址</span>
+            <input
+              className=" border rounded px-3 py-2 text-sm mr-3"
+              type="text"
+              onChange={(e) => setCollectTo(e.target.value)}
+            />
+          </div>
+          <div className="my-2">
+            <span> 扣留手续费</span>
+            <input
+              type="number"
+              className=" border rounded px-3 py-2 text-sm mr-3"
+              value={gas}
+              onChange={(e) => setGas(Number(e.target.value).valueOf())}
+            />
+          </div>
+        </div>
+
+        <div
+          className=" bg-black text-white rounded  px-3 py-2 text-sm cursor-pointer w-fit"
+          onClick={collect}
+        >
+          确认归集
+        </div>
+      </div>
+      <hr />
+      <div className="py-3">
+        <div className=" font-bold text-xl">ERC20 归集</div>
         <input
           type="text"
-          placeholder="rpc"
-          onChange={(e: any) => setRpc(e.target.value)}
+          className=" my-2 border rounded px-3 py-2 text-sm mr-3"
+          placeholder="合约地址"
+          onChange={(e) => setContractAddr(e.target.value)}
         />
-      </div>
-      <div>
-        <div>私钥</div>
-        <textarea
-          name="pk"
-          id=""
-          cols={30}
-          rows={10}
-          placeholder="请输入PK"
-          onChange={updatePK}
-        ></textarea>
-      </div>
-      <div>
-        <div>结果</div>
-        {data.length > 0 &&
-          data.map((item: any, index: any) => {
-            const keys = Object.keys(item);
-
-            return (
-              <div key={index}>
-                {keys.map((key: any) => (
-                  <span>
-                    {item[key]} {"  "}
-                  </span>
-                ))}
-              </div>
-            );
-          })}
-      </div>
-      <hr />
-      <div>
-        归集
-        <div>
-          归集地址
-          <input type="text" onChange={(e) => setCollectTo(e.target.value)} />
-          手动gas
-          <input
-            type="number"
-            value={gas}
-            onChange={(e) => setGas(Number(e.target.value).valueOf())}
-          />
+        <div
+          className=" bg-black text-white rounded  px-3 py-2 text-sm cursor-pointer w-fit"
+          onClick={collectERC20}
+        >
+          ERC20归集
         </div>
-        <button onClick={collect}>确认归集</button>
-        <button onClick={updateWalletDates}>更新余额</button>
       </div>
-      <hr />
-      <input
-        type="text"
-        placeholder="合约地址"
-        onChange={(e) => setContractAddr(e.target.value)}
-      />
-      <button onClick={collectERC20}>ERC20归集</button>
     </div>
   );
 }
