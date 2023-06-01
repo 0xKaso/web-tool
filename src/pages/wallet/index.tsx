@@ -31,7 +31,7 @@ const DocsPage = () => {
 
   return (
     <div className="">
-      <div className=" flex">
+      <div className=" flex mb-4">
         <input
           className=" border rounded px-3 py-2 text-sm mr-3"
           type="number"
@@ -48,9 +48,8 @@ const DocsPage = () => {
       </div>
       {wallets.map((wallet: any, index: number) => {
         return (
-          <div>
-            <span>{wallet.addr}</span>
-            ----
+          <div className=" text-xs flex font-mono">
+            <span>{wallet.addr},</span>
             <span>{wallet.pk}</span>
           </div>
         );
