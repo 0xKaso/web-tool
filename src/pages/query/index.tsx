@@ -153,7 +153,7 @@ export default function QueryPage() {
               <div> {pkStatus ? "私钥录入成功" : "私钥未录入或有误"}</div>
             </div>
           </div>
-          <div className=" h-[300px] min-w-[500px] overflow-scroll bg-white p-3 px-6 w-full rounded border">
+          <div className=" min-h-[250px] min-w-[500px] overflow-scroll bg-white p-3 px-6 w-full rounded border">
             <div className=" flex justify-between font-bold underline">
               {data.length > 0 &&
                 Object.keys(data[0]).map((key: any) => (
