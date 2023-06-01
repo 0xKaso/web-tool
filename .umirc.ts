@@ -5,6 +5,7 @@ export default defineConfig({
     { path: "/", component: "index" },
     { path: "/wallet", component: "wallet" },
     { path: "/query", component: "query" },
+    { path: "/interacted", component: "interacted" },
   ],
 
   npmClient: "yarn",

@@ -192,7 +192,7 @@ export default function QueryPage() {
               />
             </div>
             <div className="my-2">
-              <span className="mr-2">扣留手续费</span>
+              <span className="mr-2">扣留额度</span>
               <input
                 type="number"
                 className=" border rounded px-3 py-2 text-sm mr-3"

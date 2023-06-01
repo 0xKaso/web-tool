@@ -8,6 +8,7 @@ export default function Layout() {
         <Link to="/">主页</Link>
         <Link to="/wallet">创建钱包</Link>
         <Link to="/query">批量归集</Link>
+        <Link to="/interacted">合约交互</Link>
       </div>
       <div className=" border mt-3 p-4">
         <Outlet />
