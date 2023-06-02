@@ -3,7 +3,7 @@ import styles from "./index.less";
 import { useEffect } from "react";
 
 export default function Layout() {
-  const { logs, clearLogs } = useModel("logModel");
+  const { logs, clearLogs,downloadLogs } = useModel("logModel");
 
   useEffect(() => {
     updateScrollPosition();
@@ -25,10 +25,13 @@ export default function Layout() {
       </div>
       <div className=" border mt-3 p-4 relative">
         <div className=" absolute bg-[rgba(0,0,0,.8)] w-64 rounded font-mono text-white p-2 text-xs right-0 top-0">
-          <div className=" font-bold leading-6 text-[rgba(255,255,255,1)] border-b-2">
+          <div className=" flex gap-2 font-bold leading-6 text-[rgba(255,255,255,1)] border-b-2">
             <div className=" underline cursor-pointer" onClick={clearLogs}>
               清除日志
             </div>
+            <div className=" underline cursor-pointer" onClick={downloadLogs}>
+              下载日志
+            </div>  
           </div>
           <div
             id="logs"

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { saveAs } from "file-saver";
 
 export default function Page() {
   const [logs, setLogs] = useState<any[]>([]);
@@ -10,8 +11,15 @@ export default function Page() {
 
   const clearLogs = () => {
     setLogs([]);
-    pushLog("日志已清空")
+    pushLog("日志已清空");
   };
 
-  return { logs, pushLog, clearLogs };
+  const downloadLogs = () => {
+    var blob = new Blob([JSON.stringify(logs)], {
+      type: "text/plain;charset=utf-8",
+    });
+    saveAs(blob, "logs.txt");
+  };
+
+  return { logs, pushLog, clearLogs, downloadLogs };
 }
