@@ -8,5 +8,9 @@ export default function Page() {
     setLogs((logs) => [...logs, `[${date.toLocaleString()}]:${log}`]);
   };
 
-  return { logs, pushLog };
+  const clearLogs = () => {
+    setLogs(["日志已清除"]);
+  };
+
+  return { logs, pushLog, clearLogs };
 }
