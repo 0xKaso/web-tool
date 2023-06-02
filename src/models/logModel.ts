@@ -6,7 +6,7 @@ export default function Page() {
 
   const pushLog = (log: string) => {
     const date = new Date();
-    setLogs((logs) => [...logs, `[${date.toLocaleString()}]:${log}`]);
+    setLogs((logs) => [...logs, `[${date.toLocaleString().split(" ")[1]}]:${log}`]);
   };
 
   const clearLogs = () => {
