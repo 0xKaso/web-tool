@@ -3,7 +3,7 @@ import styles from "./index.less";
 import { useEffect } from "react";
 
 export default function Layout() {
-  const { logs, clearLogs,downloadLogs } = useModel("logModel");
+  const { logs, clearLogs, downloadLogs } = useModel("logModel");
 
   useEffect(() => {
     updateScrollPosition();
@@ -23,19 +23,20 @@ export default function Layout() {
         <Link to="/query">批量归集</Link>
         <Link to="/interacted">合约交互</Link>
       </div>
-      <div className=" border mt-3 p-4 relative">
+      <div className="  mt-3 p-4 relative">
         <div className=" absolute bg-[rgba(0,0,0,.8)] w-64 rounded font-mono text-white p-2 text-xs right-0 top-0">
-          <div className=" flex gap-2 font-bold leading-6 text-[rgba(255,255,255,1)] border-b-2">
+          <div className=" flex gap-2 font-bold leading-6 text-[rgba(255,255,255,1)]">
             <div className=" underline cursor-pointer" onClick={clearLogs}>
               清除日志
             </div>
             <div className=" underline cursor-pointer" onClick={downloadLogs}>
               下载日志
-            </div>  
+            </div>
           </div>
+          <hr />
           <div
             id="logs"
-            className="h-48 py-2 overflow-y-scroll text-[rgba(255,255,255,1)]"
+            className="h-48 py-1 overflow-y-scroll text-[rgba(255,255,255,1)]"
           >
             {logs.map((item) => {
               return <div>{item}</div>;
