@@ -10,7 +10,7 @@ export default function Interacted() {
   const [pkStatus, setPkStatus] = useState<any>(false);
   const [args, setArgs] = useState<any>([]);
 
-  const { logs, pushLog } = useModel("logModel");
+  const { pushLog } = useModel("logModel");
 
   const [contractAddr, setContractAddr] = useState<any>("");
 
@@ -18,10 +18,9 @@ export default function Interacted() {
     const { value } = e.target;
     try {
       const r = JSON.parse(value);
-
-      console.log("🚀 ~ file: index.tsx:19 ~ updateABI ~ r:", r);
       setAbi(r);
       setChooseFun(r[0]);
+      pushLog("ABI更新成功");
     } catch (error) {
       setAbi([]);
     }
@@ -37,6 +36,7 @@ export default function Interacted() {
     }, true);
 
     if (checkStatu) {
+      pushLog(`钱包更新成功,合计${r.length}个钱包地址`);
       setPkStatus(true);
       setPK(r);
     }
@@ -63,12 +63,11 @@ export default function Interacted() {
       const handlePK = pk[i];
       const provider = new ethers.JsonRpcProvider(rpc);
       const handleWallet = new ethers.Wallet(handlePK, provider);
-
       try {
-        console.log("🚀 ~ file: index.tsx:67 ~ play ~ chooseFun:", chooseFun);
         await (contract as any).connect(handleWallet)[chooseFun.name](...args);
+        pushLog(`钱包${handleWallet.address}执行成功`);
       } catch (error) {
-        console.log("🚀 ~ file: index.tsx:66 ~ play ~ error:", error);
+        pushLog(`钱包${handleWallet.address}执行失败`);
       }
     }
   };

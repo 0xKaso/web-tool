@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import BigNumber from "bignumber.js";
+import { useModel } from "umi";
 
 export default function QueryPage() {
   const [rpc, setRpc] = useState();
@@ -11,6 +12,7 @@ export default function QueryPage() {
   const [contractAddr, setContractAddr] = useState<any>("");
 
   const [pkStatus, setPkStatus] = useState<any>(false);
+  const { pushLog } = useModel("logModel");
 
   useEffect(() => {
     updateWalletDates();
@@ -26,6 +28,7 @@ export default function QueryPage() {
     }, true);
 
     if (checkStatu) {
+      pushLog(`钱包更新成功,合计${r.length}个钱包地址`);
       setPkStatus(true);
       setPK(r);
     }
@@ -37,6 +40,7 @@ export default function QueryPage() {
 
   const updateWalletDates = async () => {
     if (!!rpc === false || pk.length === 0) return;
+    pushLog("开始更新钱包数据...");
     const provider = new ethers.JsonRpcProvider(rpc);
 
     let wllets = [];
@@ -66,9 +70,11 @@ export default function QueryPage() {
       wllets.push(temp);
     }
     setData(wllets);
+    pushLog("钱包数据更新完成");
   };
 
   const collect = async () => {
+    pushLog("开始收款...");
     const provider = new ethers.JsonRpcProvider(rpc);
     for (let i = 0; i < pk.length; i++) {
       const handlePK = pk[i];
@@ -80,13 +86,15 @@ export default function QueryPage() {
             (Number(data[i].value).valueOf() - gas).toString()
           ),
         });
+        pushLog(`收款成功, ${handleWallet.address}`)
       } catch (error) {
-        console.log("🚀 ~ file: index.tsx:75 ~ collect ~ error:", error);
+        pushLog(`收款失败, ${handleWallet.address}`)
       }
     }
   };
 
   const collectERC20 = async () => {
+    pushLog("开始收款...");
     const provider = new ethers.JsonRpcProvider(rpc);
     const contract = new ethers.Contract(contractAddr, [
       "function transfer(address to, uint256 value) returns (bool)",
@@ -100,12 +108,15 @@ export default function QueryPage() {
           await contract
             .connect(handleWallet)
             .transfer(collectTo, data[i].token);
+          pushLog(`收款成功, ${handleWallet.address}`)
         } catch (error) {
-          console.log("🚀 ~ file: index.tsx:75 ~ collect ~ error:", error);
+          pushLog(`收款失败, ${handleWallet.address}`)
         }
       }
     }
+    pushLog("收款完成");
   };
+  
   return (
     <div>
       <div className=" font-bold text-xl">配置项</div>
@@ -173,48 +184,11 @@ export default function QueryPage() {
       </div>
 
       <hr />
- 
-        <div className="py-3">
-          <div className=" font-bold text-xl">Native Token 归集</div>
-          <div className=" my-2">
-            <div>
-              <span className="mr-2">归集地址</span>
-              <input
-                className=" border rounded px-3 py-2 text-sm mr-3"
-                type="text"
-                value={collectTo}
-                onChange={(e) => setCollectTo(e.target.value)}
-              />
-            </div>
-            <div className="my-2">
-              <span className="mr-2">扣留额度</span>
-              <input
-                type="number"
-                className=" border rounded px-3 py-2 text-sm mr-3"
-                value={gas}
-                onChange={(e) => setGas(Number(e.target.value).valueOf())}
-              />
-            </div>
-          </div>
 
-          <div
-            className=" bg-black text-white rounded  px-3 py-2 text-sm cursor-pointer w-fit"
-            onClick={collect}
-          >
-            确认归集
-          </div>
-        </div>
-        <hr />
-        <div className="py-3">
-          <div className=" font-bold text-xl">ERC20 归集</div>
-          <span className="mr-2">合约地址</span>
-          <input
-            type="text"
-            className=" my-2 border rounded px-3 py-2 text-sm mr-3"
-            placeholder="合约地址"
-            onChange={(e) => setContractAddr(e.target.value)}
-          />
-          <div className="my-2">
+      <div className="py-3">
+        <div className=" font-bold text-xl">Native Token 归集</div>
+        <div className=" my-2">
+          <div>
             <span className="mr-2">归集地址</span>
             <input
               className=" border rounded px-3 py-2 text-sm mr-3"
@@ -223,14 +197,50 @@ export default function QueryPage() {
               onChange={(e) => setCollectTo(e.target.value)}
             />
           </div>
-          <div
-            className=" bg-black text-white rounded  px-3 py-2 text-sm cursor-pointer w-fit"
-            onClick={collectERC20}
-          >
-            确认归集
+          <div className="my-2">
+            <span className="mr-2">扣留额度</span>
+            <input
+              type="number"
+              className=" border rounded px-3 py-2 text-sm mr-3"
+              value={gas}
+              onChange={(e) => setGas(Number(e.target.value).valueOf())}
+            />
           </div>
         </div>
-      </div>
 
+        <div
+          className=" bg-black text-white rounded  px-3 py-2 text-sm cursor-pointer w-fit"
+          onClick={collect}
+        >
+          确认归集
+        </div>
+      </div>
+      <hr />
+      <div className="py-3">
+        <div className=" font-bold text-xl">ERC20 归集</div>
+        <span className="mr-2">合约地址</span>
+        <input
+          type="text"
+          className=" my-2 border rounded px-3 py-2 text-sm mr-3"
+          placeholder="合约地址"
+          onChange={(e) => setContractAddr(e.target.value)}
+        />
+        <div className="my-2">
+          <span className="mr-2">归集地址</span>
+          <input
+            className=" border rounded px-3 py-2 text-sm mr-3"
+            type="text"
+            value={collectTo}
+            onChange={(e) => setCollectTo(e.target.value)}
+          />
+        </div>
+        <div
+          className=" bg-black text-white rounded  px-3 py-2 text-sm cursor-pointer w-fit"
+          onClick={collectERC20}
+        >
+          确认归集
+        </div>
+      </div>
+    </div>
   );
 }
