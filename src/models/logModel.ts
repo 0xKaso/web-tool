@@ -9,7 +9,8 @@ export default function Page() {
   };
 
   const clearLogs = () => {
-    setLogs(["日志已清除"]);
+    setLogs([]);
+    pushLog("日志已清空")
   };
 
   return { logs, pushLog, clearLogs };
