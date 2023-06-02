@@ -4,7 +4,8 @@ export default function Page() {
   const [logs, setLogs] = useState<any[]>([]);
 
   const pushLog = (log: string) => {
-    setLogs((logs) => [...logs, log]);
+    const date = new Date();
+    setLogs((logs) => [...logs, `[${date.toLocaleString()}]:${log}`]);
   };
 
   return { logs, pushLog };
