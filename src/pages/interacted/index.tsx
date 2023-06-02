@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
+import { useModel } from "umi";
 
 export default function Interacted() {
   const [rpc, setRpc] = useState<any>();
@@ -9,6 +10,8 @@ export default function Interacted() {
   const [pkStatus, setPkStatus] = useState<any>(false);
   const [args, setArgs] = useState<any>([]);
 
+  const { logs, pushLog } = useModel("logModel");
+
   const [contractAddr, setContractAddr] = useState<any>("");
 
   const updateABI = (e: any) => {
@@ -16,9 +19,9 @@ export default function Interacted() {
     try {
       const r = JSON.parse(value);
 
-      console.log("🚀 ~ file: index.tsx:19 ~ updateABI ~ r:", r)
+      console.log("🚀 ~ file: index.tsx:19 ~ updateABI ~ r:", r);
       setAbi(r);
-      setChooseFun(r[0])
+      setChooseFun(r[0]);
     } catch (error) {
       setAbi([]);
     }
@@ -62,13 +65,11 @@ export default function Interacted() {
       const handleWallet = new ethers.Wallet(handlePK, provider);
 
       try {
-        console.log("🚀 ~ file: index.tsx:67 ~ play ~ chooseFun:", chooseFun)
+        console.log("🚀 ~ file: index.tsx:67 ~ play ~ chooseFun:", chooseFun);
         await (contract as any).connect(handleWallet)[chooseFun.name](...args);
       } catch (error) {
         console.log("🚀 ~ file: index.tsx:66 ~ play ~ error:", error);
       }
-
-    
     }
   };
 
